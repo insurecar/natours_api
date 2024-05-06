@@ -64,6 +64,34 @@ app.post("/api/v1/tours", (req, res) => {
   );
 });
 
+app.patch("/api/v1/tours/:id", (req, res) => {
+  const mathcingTour = tours.find((tour) => +tour.id === +req.params.id);
+  if (mathcingTour.length === 0) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Invalid ID",
+    });
+  }
+
+  const updatedTour = { ...mathcingTour, ...req.body };
+  const updatedTours = tours.map((tour) =>
+    +mathcingTour?.id === +tour.id ? updatedTour : tour
+  );
+
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(updatedTours),
+    (err) => {
+      res.status(200).json({
+        status: "success",
+        data: {
+          tour: updatedTour,
+        },
+      });
+    }
+  );
+});
+
 const port = 3000;
 
 app.listen(port, () => {
