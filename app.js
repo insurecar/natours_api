@@ -92,6 +92,28 @@ app.patch("/api/v1/tours/:id", (req, res) => {
   );
 });
 
+app.delete("/api/v1/tours/:id", (req, res) => {
+  const updatedTours = tours.filter((tour) => +req.params.id !== tour.id);
+
+  if (updatedTours.length === tours.length) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Invalid ID",
+    });
+  }
+
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(updatedTours),
+    (err) => {
+      res.status(204).json({
+        status: "success",
+        data: null,
+      });
+    }
+  );
+});
+
 const port = 3000;
 
 app.listen(port, () => {
