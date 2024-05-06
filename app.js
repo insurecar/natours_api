@@ -189,9 +189,9 @@ app.route("/:id").get(getTour).patch(updateTour).delete(deleteTour);
 const userRouter = express.Router();
 app.use("/api/v1/tours", userRouter);
 
-app.route("/").get(getAllUsers).post(createUser);
+userRouter.route("/").get(getAllUsers).post(createUser);
 
-app.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+userRouter.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
 
 const port = 3000;
 
