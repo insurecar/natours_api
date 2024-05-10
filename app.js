@@ -2,8 +2,13 @@ const express = require("express");
 const morgan = require("morgan");
 const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
+const gdUserRouter = require("./routes/gdUserRoute");
 const app = express();
 const fs = require("fs");
+const {
+  getUserByName,
+  getAllGdUsers,
+} = require("./controllers/gdUserController");
 
 const getAllGDUsers = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/gdUsers.json`)
@@ -48,32 +53,20 @@ app.use((req, res, next) => {
 
 // app.delete("/api/v1/tours/:id", deleteTour);
 
-app.get("/api/v1/gd-users", (req, res) => {
-  res.status(200).json({
-    status: "success",
-    results: getAllGDUsers.length,
-    data: {
-      gdusers: getAllGDUsers,
-    },
-  });
-});
+// app.get("/api/v1/gd-users", (req, res) => {
+//   res.status(200).json({
+//     status: "success",
+//     results: getAllGDUsers.length,
+//     data: {
+//       gdusers: getAllGDUsers,
+//     },
+//   });
+// });
 
-app.get("/api/v1/gd-users/:lastname", (req, res) => {
-  console.log(req.params);
-  const findUsers = getAllGDUsers.filter(
-    (user) =>
-      // user?.lastName.toLowerCase() === req.params?.lastname.toLowerCase() ||
-      user?.firstName.toLowerCase() === req.params?.lastname.toLowerCase()
-  );
-  res.status(200).json({
-    status: "success",
-    results: findUsers.length,
-    data: {
-      users: findUsers,
-    },
-  });
-});
+app.get("/api/v1/gd-users", getAllGdUsers);
+app.get("/api/v1/gd-users/:lastname", getUserByName);
 
+app.use("/api/v1/gd-users", gdUserRouter);
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 
