@@ -4,6 +4,19 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+exports.checkID = (req, res, next, val) => {
+  const updatedTours = tours.filter((tour) => +req.params.id !== tour.id);
+
+  if (updatedTours.length === tours.length) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Invalid ID",
+    });
+  }
+
+  next();
+};
+
 exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",
@@ -14,14 +27,6 @@ exports.getAllTours = (req, res) => {
 };
 
 exports.getTour = (req, res) => {
-  const tour = tours.filter((tour) => +tour.id === +req.params.id);
-  if (tour.length === 0) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid id",
-    });
-  }
-
   res.status(200).json({
     status: "success",
     data: {
@@ -52,12 +57,6 @@ exports.createTour = (req, res) => {
 
 exports.updateTour = (req, res) => {
   const mathcingTour = tours.find((tour) => +tour.id === +req.params.id);
-  if (mathcingTour.length === 0) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Invalid ID",
-    });
-  }
 
   const updatedTour = { ...mathcingTour, ...req.body };
   const updatedTours = tours.map((tour) =>
@@ -79,15 +78,6 @@ exports.updateTour = (req, res) => {
 };
 
 exports.deleteTour = (req, res) => {
-  const updatedTours = tours.filter((tour) => +req.params.id !== tour.id);
-
-  if (updatedTours.length === tours.length) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Invalid ID",
-    });
-  }
-
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(updatedTours),
