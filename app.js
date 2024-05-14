@@ -16,8 +16,8 @@ const getAllGDUsers = JSON.parse(
 
 // 1_ Middleware
 app.use(morgan("dev"));
-
 app.use(express.json());
+app.use(express.static(`${__dirname}/public`)); //alows us to open html files in public folder
 
 app.use((req, res, next) => {
   console.log("Hello from the middleware 😀😀😀😀😀");
