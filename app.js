@@ -4,18 +4,15 @@ const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
 const gdUserRouter = require("./routes/gdUserRoute");
 const app = express();
-const fs = require("fs");
 const {
   getUserByName,
   getAllGdUsers,
 } = require("./controllers/gdUserController");
 
-const getAllGDUsers = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/data/gdUsers.json`)
-);
-
 // 1_ Middleware
+// if (process.env.NODE_ENV === "development") {
 app.use(morgan("dev"));
+// }
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`)); //alows us to open html files in public folder
 
