@@ -4,9 +4,11 @@ const router = express.Router();
 const {
   getUserByName,
   getAllGdUsers,
+  getUserByNameAndSurname,
 } = require("../controllers/gdUserController");
 
 router.route("/").get(getAllGdUsers);
-router.route("/:surname").get(getUserByName);
+router.route("/:name").get(getUserByName);
+router.route("/:name/:surname").get(getUserByNameAndSurname);
 
 module.exports = router;

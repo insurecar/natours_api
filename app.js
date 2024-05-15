@@ -4,12 +4,7 @@ const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
 const gdUserRouter = require("./routes/gdUserRoute");
 const app = express();
-const {
-  getUserByName,
-  getAllGdUsers,
-} = require("./controllers/gdUserController");
 
-// 1_ Middleware
 // if (process.env.NODE_ENV === "development") {
 app.use(morgan("dev"));
 // }
@@ -27,46 +22,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.get("/", (req, res) => {
-//   //   res.status(200).send("Hello from the server side...");
-//   res
-//     .status(404)
-//     .json({ message: "Hello from the server side", app: "Natours" });
-// });
-
-// app.post("/", (req, res) => {
-//   res.send("You can post to this endpoint");
-// });
-
-//3_ ROUTES
-
-// app.get("/api/v1/tours", getAllTours);
-
-// app.get("/api/v1/tours/:id", getTour);
-
-// app.post("/api/v1/tours", createTour);
-
-// app.patch("/api/v1/tours/:id", updateTour);
-
-// app.delete("/api/v1/tours/:id", deleteTour);
-
-// app.get("/api/v1/gd-users", (req, res) => {
-//   res.status(200).json({
-//     status: "success",
-//     results: getAllGDUsers.length,
-//     data: {
-//       gdusers: getAllGDUsers,
-//     },
-//   });
-// });
-
-app.get("/api/v1/gd-users", getAllGdUsers);
-app.get("/api/v1/gd-users/:lastname", getUserByName);
-
 app.use("/api/v1/gd-users", gdUserRouter);
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
-
-//4_ START SERVER
 
 module.exports = app;
