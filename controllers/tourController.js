@@ -1,21 +1,22 @@
 const fs = require("fs");
+const Tour = require("../models/tourModel");
 
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
-);
+// const tours = JSON.parse(
+//   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
+// );
 
-exports.checkID = (req, res, next, val) => {
-  const updatedTours = tours.filter((tour) => +req.params.id !== tour.id);
+// exports.checkID = (req, res, next, val) => {
+//   const updatedTours = tours.filter((tour) => +req.params.id !== tour.id);
 
-  if (updatedTours.length === tours.length) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Invalid ID",
-    });
-  }
+//   if (updatedTours.length === tours.length) {
+//     return res.status(400).json({
+//       status: "fail",
+//       message: "Invalid ID",
+//     });
+//   }
 
-  next();
-};
+//   next();
+// };
 
 exports.checkBody = (req, res, next) => {
   //checking body and price
@@ -32,25 +33,25 @@ exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",
     requstedAt: req.requestTime,
-    results: tours.length,
-    data: { tours: tours },
+    // results: tours.length,
+    // data: { tours: tours },
   });
 };
 
 exports.getTour = (req, res) => {
   res.status(200).json({
     status: "success",
-    data: {
-      tour,
-    },
+    // data: {
+    //   tour,
+    // },
   });
 };
 
 exports.createTour = (req, res) => {
-  console.log(req.body);
-  const newId = tours[tours.length - 1].id + 1;
-  const tour = { ...req.body, id: newId };
-  const updatedTours = [...tours, tour];
+  // console.log(req.body);
+  // const newId = tours[tours.length - 1].id + 1;
+  // const tour = { ...req.body, id: newId };
+  // const updatedTours = [...tours, tour];
 
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
@@ -58,32 +59,32 @@ exports.createTour = (req, res) => {
     (err) => {
       res.status(201).json({
         status: " success",
-        data: {
-          tour,
-        },
+        // data: {
+        //   tour,
+        // },
       });
     }
   );
 };
 
 exports.updateTour = (req, res) => {
-  const mathcingTour = tours.find((tour) => +tour.id === +req.params.id);
+  // const mathcingTour = tours.find((tour) => +tour.id === +req.params.id);
 
-  const updatedTour = { ...mathcingTour, ...req.body };
-  const updatedTours = tours.map((tour) =>
-    +mathcingTour?.id === +tour.id ? updatedTour : tour
-  );
+  // const updatedTour = { ...mathcingTour, ...req.body };
+  // const updatedTours = tours.map((tour) =>
+  //   +mathcingTour?.id === +tour.id ? updatedTour : tour
+  // );
 
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(updatedTours),
     (err) => {
-      res.status(200).json({
-        status: "success",
-        data: {
-          tour: updatedTour,
-        },
-      });
+      // res.status(200).json({
+      //   status: "success",
+      //   data: {
+      //     tour: updatedTour,
+      //   },
+      // });
     }
   );
 };
