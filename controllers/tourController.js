@@ -48,13 +48,21 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.getTour = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    // data: {
-    //   tour,
-    // },
-  });
+exports.getTour = async (req, res) => {
+  try {
+    const tour = await Tour.findById(req.params.id);
+    res.status(200).json({
+      status: "success",
+      data: {
+        tour,
+      },
+    });
+  } catch (err) {
+    restart.status(404).json({
+      status: "fail",
+      message: `Tour wasn't found`,
+    });
+  }
 };
 
 exports.createTour = async (req, res) => {
