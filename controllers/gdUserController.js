@@ -62,7 +62,6 @@ exports.getUsersByLocation = async (req, res) => {
     const locationIn = await GDUser.find({
       location: new RegExp(`^${location}$`, "i"),
     });
-    console.log("🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️🙇‍♂️");
     res.status(203).json({
       message: "success",
       length: locationIn.length,
