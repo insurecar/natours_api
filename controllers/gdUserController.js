@@ -1,10 +1,9 @@
-const GDUser = require("../models/gdModel"); // Необхідно, якщо ви використовуєте схему
+const GDUser = require("../models/gdModel");
 
 exports.getAllUsers = async (req, res) => {
   try {
     const gdusers = await GDUser.find();
-    console.log();
-    res.status(203).json({
+    res.status(200).json({
       status: "success",
       length: gdusers.length,
       data: {
@@ -60,7 +59,6 @@ exports.getUserBySurnameAndName = async (req, res) => {
 exports.getUsersByLocation = async (req, res) => {
   try {
     const { location } = req.params;
-    console.log("sdhggskdjfvsdhjfvg", location);
     const locationIn = await GDUser.find({
       location: new RegExp(`^${location}$`, "i"),
     });
@@ -71,7 +69,6 @@ exports.getUsersByLocation = async (req, res) => {
       users: locationIn,
     });
   } catch (err) {
-    console.log(err);
     res.status(444).json({
       status: "fail",
       message: `Can't find this location asjfhsdhfbshf`,
