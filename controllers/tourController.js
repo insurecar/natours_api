@@ -114,22 +114,25 @@ exports.updateTour = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(200).json({
-      status: "success",
+    res.status(404).json({
+      status: "fail",
       message: err,
     });
   }
 };
 
-exports.deleteTour = (req, res) => {
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(updatedTours),
-    (err) => {
-      res.status(204).json({
-        status: "success",
-        data: null,
-      });
-    }
-  );
+exports.deleteTour = async (req, res) => {
+  try {
+    await Tour.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: "was not found",
+    });
+  }
 };
