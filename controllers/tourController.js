@@ -46,8 +46,14 @@ exports.getAllTours = async (req, res) => {
     queryStr = JSON.parse(
       queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
     );
+    // 2B) Sorting
+    let query = Tour.find(queryStr);
+    2;
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(",").join(" ");
+      query = query.sort(sortBy);
+    }
 
-    const query = Tour.find(queryStr);
     // 3) Execute query
     const tours = await query;
     res.status(200).json({
