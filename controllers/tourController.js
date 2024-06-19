@@ -48,10 +48,12 @@ exports.getAllTours = async (req, res) => {
     );
     // 2B) Sorting
     let query = Tour.find(queryStr);
-    2;
+
     if (req.query.sort) {
       const sortBy = req.query.sort.split(",").join(" ");
       query = query.sort(sortBy);
+    } else {
+      query = query.sort("-createdAt");
     }
 
     // 3) Execute query

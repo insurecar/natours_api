@@ -2,7 +2,24 @@ const GDUser = require("../models/gdModel");
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const gdusers = await GDUser.find();
+    const queryObj = { ...req.query };
+    const excludedFields = ["page", "sort", "limit", "fields"];
+    excludedFields.forEach((query) => delete queryObj[query]);
+
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = JSON.parse(
+      queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
+    );
+
+    let query = GDUser.find(queryStr);
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(",").join(" ");
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort("-createdAt");
+    }
+
+    const gdusers = await query;
     res.status(200).json({
       status: "success",
       length: gdusers.length,
