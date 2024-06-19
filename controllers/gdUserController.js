@@ -19,6 +19,13 @@ exports.getAllUsers = async (req, res) => {
       query = query.sort("id");
     }
 
+    if (req.query.fields) {
+      const fields = req.query.fields.split(",").join(" ");
+      query = query.select(fields);
+    } else {
+      query = query.select("-__v"); // excluded property
+    }
+
     const gdusers = await query;
     res.status(200).json({
       status: "success",
