@@ -26,6 +26,16 @@ exports.getAllUsers = async (req, res) => {
       query = query.select("-__v"); // excluded property
     }
 
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 100;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await GDUser.countDocuments();
+      if (skip >= numTours) throw new Error(`This page doesn't exist`);
+    }
+
     const gdusers = await query;
     res.status(200).json({
       status: "success",
