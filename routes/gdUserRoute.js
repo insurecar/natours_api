@@ -1,14 +1,16 @@
 const express = require("express");
-const router = express.Router();
-
 const {
-  getUserByName,
-  getAllGdUsers,
-  getUserByNameAndSurname,
+  getAllUsers,
+  getUserBySurname,
+  getUserBySurnameAndName,
+  getUsersByLocation,
 } = require("../controllers/gdUserController");
 
-router.route("/").get(getAllGdUsers);
-router.route("/:name").get(getUserByName);
-router.route("/:name/:surname").get(getUserByNameAndSurname);
+const router = express.Router();
+
+router.route("/").get(getAllUsers);
+router.route("/location/:location").get(getUsersByLocation);
+router.route("/:lastName").get(getUserBySurname);
+router.route("/:lastName/:firstName").get(getUserBySurnameAndName);
 
 module.exports = router;
