@@ -1,22 +1,34 @@
 const path = require("path");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
-  entry: "./server.js",
+  entry: {
+    main: "./server.js",
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /express[\/\\]lib[\/\\]view\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
+        use: "null-loader",
       },
     ],
   },
+
+  performance: {
+    maxAssetSize: 244 * 1024, // 244 KiB
+    maxEntrypointSize: 244 * 1024, // 244 KiB
+  },
+  plugins: [
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+    }),
+  ],
   resolve: {
     fallback: {
       buffer: require.resolve("buffer/"),
