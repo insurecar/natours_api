@@ -28,6 +28,13 @@ const Tour = require("../models/tourModel");
 //   next();
 // };
 
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = "5";
+  req.query.sort = "-ratingsAverage,price";
+  req.query.fields = "name,price,ratingsAverage,summary,difficulty"; //alows us to get just these fields(avoid overfetching)
+  next();
+};
+
 exports.getAllTours = async (req, res) => {
   try {
     // 1) Filtering
