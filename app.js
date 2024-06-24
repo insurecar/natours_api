@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const morgan = require("morgan");
 const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
@@ -10,6 +11,7 @@ app.use(morgan("dev"));
 // }
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`)); //alows us to open html files in public folder
+app.use(cors());
 
 app.use((req, res, next) => {
   console.log("Hello from the middleware 😀😀😀😀😀");

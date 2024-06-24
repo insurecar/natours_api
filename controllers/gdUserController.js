@@ -27,7 +27,7 @@ exports.getAllUsers = async (req, res) => {
     }
 
     const page = +req.query.page || 1;
-    const limit = +req.query.limit || 100;
+    const limit = +req.query.limit || 10000;
     const skip = (page - 1) * limit;
     query = query.skip(skip).limit(limit);
 
