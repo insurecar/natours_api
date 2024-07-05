@@ -2,7 +2,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "debug": "ndb server.js"
   },
   "dependencies": {
     "assert": "^2.1.0",
@@ -17,6 +18,7 @@
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.0",
     "morgan": "^1.10.0",
+    "ndb": "^1.1.5",
     "nodemon": "^3.1.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
